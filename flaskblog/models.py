@@ -6,6 +6,10 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+tagmapper = db.Table('tagmapper',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True))
+
 
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -14,6 +18,7 @@ class User(db.Model,UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
+
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
@@ -28,3 +33,12 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    tagsmapped = db.relationship('User', secondary=tagmapper, backref=db.backref('tagsmapped', lazy='dynamic'))
+
+    def _repr_(self):
+        return f"Post('{self.id}', '{self.name}')"
+

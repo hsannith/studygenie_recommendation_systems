@@ -3,9 +3,9 @@ from wtforms import TextAreaField,StringField, PasswordField, SubmitField, Boole
 from wtforms.validators import ValidationError,DataRequired, Length, Email, EqualTo
 from flaskblog.models import User
 
-my_choices = [('1', 'Choice1'), ('2', 'Choice2'), ('3', 'Choice3'),
-            ('1', 'Choice1'), ('2', 'Choice2'), ('3', 'Choice3'),
-            ('1', 'Choice1'), ('2', 'Choice2'), ('3', 'Choice3')]
+my_choices = [('1', 'Java'), ('2', 'C++'), ('3', 'Python'),
+            ('4', 'JavaScript'), ('5', 'Angular'), ('6', 'React'),
+            ('7', 'MongoDB'), ('8', 'HTML'), ('9', 'CSS'),('10', 'Node.js')]
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
