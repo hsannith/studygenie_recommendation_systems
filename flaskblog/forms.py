@@ -41,4 +41,5 @@ class LoginForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
+    tagid = SelectField('Category', choices=my_choices, default=['1'])
     submit = SubmitField('Post')

@@ -73,7 +73,10 @@ def account():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        post = Post(title=form.title.data, content=form.content.data, author=current_user) #should add tag id column
+        tagid=form.tagid.data
+        tag=Tag.query.filter_by(id=tagid).first()
+        tag.notesmapped.append(post)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')

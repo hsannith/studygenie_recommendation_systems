@@ -11,6 +11,11 @@ tagmapper = db.Table('tagmapper',
     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True))
 
 
+notemapper = db.Table('notemapper',
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True),
+    db.Column('note_id', db.Integer, db.ForeignKey('post.id'), primary_key=True))
+
+
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -18,6 +23,7 @@ class User(db.Model,UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
+
 
 
     def __repr__(self):
@@ -30,6 +36,7 @@ class Post(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    notesmapped=db.relationship('Tag', secondary=notemapper, backref=db.backref('notesmapped', lazy='dynamic'))
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
